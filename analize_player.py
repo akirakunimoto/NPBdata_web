@@ -5,7 +5,9 @@ def load_data():
     df = pd.read_csv('player_info.csv')
     return df
 
-def filter_data(df, team, high_school, birthplace, birthday, draft_year):
+def filter_data(df, name, team, high_school, birthplace, birthday, draft_year):
+    if name:
+        df = df[df['選手名'].str.contains(name)]
     if team != '全て':
         df = df[df['所属チーム'] == team]
     if high_school:
@@ -39,7 +41,9 @@ def main():
     st.title('NPB選手情報')
     df = load_data()
     df = df.drop_duplicates(subset='選手番号')
-    st.write('### フィルタ表示')    
+    # =======
+    st.write('### フィルタ表示')
+    name = st.text_input('選手名')    
     team_list = df['所属チーム'].unique()
     team_list = ['全て'] + list(team_list)
     team = st.selectbox('所属チーム', team_list)    
@@ -48,7 +52,7 @@ def main():
     birthday = st.text_input('生年月日')
     draft_year = st.text_input('ドラフト年')
     
-    df = filter_data(df, team, high_school, birthplace, birthday, draft_year)
+    df = filter_data(df, name, team, high_school, birthplace, birthday, draft_year)
     
     display_filtered_data2(df)
 
