@@ -22,7 +22,7 @@ def display_filtered_data(df):
     st.write(df[['選手名', '所属チーム', 'birthday', '出身高校']])
 
 def display_filtered_data2(df):
-    st.write(df[['選手名', '背番号', '所属チーム', '身長','血液型','出身地','生年月日', '出身高校','ドラフト年','ドラフト順位','経歴' ]])
+    st.write(df[['選手名', '背番号', '所属チーム', '出身高校','出身地','生年月日','ドラフト年','ドラフト順位', '身長','血液型','経歴' ]])
 
 
 def display_aggregated_data(df, select_item):
@@ -54,7 +54,7 @@ def main():
     display_filtered_data2(df)
 
     st.write('集計実行')    
-    select_item = st.selectbox('集計項目選択', ['所属チーム', '出身高校', '出身地', 'ドラフト年', 'ドラフト順位', '身長', '血液型',''])
+    select_item = st.selectbox('集計項目選択', ['所属チーム', '出身高校', '出身地', 'ドラフト年', 'ドラフト順位', '身長', '血液型','選手名',''])
     display_aggregated_data(df, select_item)
 
 if __name__ == '__main__':
