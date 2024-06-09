@@ -36,14 +36,13 @@ def display_aggregated_data(df, select_item):
         
 
 def main():
-    st.title('プロ野球選手情報')
+    st.title('NPB選手情報')
     df = load_data()
     df = df.drop_duplicates(subset='選手番号')
-    
+    st.write('### フィルタ表示')    
     team_list = df['所属チーム'].unique()
     team_list = ['全て'] + list(team_list)
-    team = st.selectbox('所属チーム', team_list)
-    
+    team = st.selectbox('所属チーム', team_list)    
     high_school = st.text_input('出身高校')
     birthplace = st.text_input('出身地')
     birthday = st.text_input('生年月日')
@@ -53,7 +52,7 @@ def main():
     
     display_filtered_data2(df)
 
-    st.write('集計実行')    
+    st.write('### 集計')    
     select_item = st.selectbox('集計項目選択', ['所属チーム', '出身高校', '出身地', 'ドラフト年', 'ドラフト順位', '身長', '血液型','選手名',''])
     display_aggregated_data(df, select_item)
 
