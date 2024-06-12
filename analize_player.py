@@ -37,7 +37,7 @@ def display_aggregated_data(df, select_item):
         else:
             count = len(df)
         st.write(count)
-        
+        st.bar_chart(count)
 
 def main():
     st.title('NPB選手情報')
