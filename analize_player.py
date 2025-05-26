@@ -1,17 +1,22 @@
 import streamlit as st
 import pandas as pd
 
+# NPB選手情報を分析するStreamlitアプリケーション
+# ローカル実行：py -m streamlit run analize_player.py
+
 def load_data():
     df = pd.read_csv('player_info.csv')
     return df
 
-def filter_data(df, name, team, high_school, career, birthplace, birthday, schoolyear ,draft_year):
+def filter_data(df, name, team, high_school, college, career, birthplace, birthday, schoolyear ,draft_year):
     if name:
         df = df[df['選手名'].str.contains(name)]
     if team != '全て':
         df = df[df['所属チーム'] == team]
     if high_school:
         df = df[df['出身高校'].str.contains(high_school)]
+    if college:
+        df = df[df['出身大学'].str.contains(college)]
     if career:
         df = df[df['経歴'].str.contains(career)]
     if birthplace:
@@ -28,7 +33,7 @@ def display_filtered_data(df):
     st.write(df[['選手名', '所属チーム', 'birthday2', '出身高校']])
 
 def display_filtered_data2(df):
-    st.write(df[['選手名', '背番号', '所属チーム', '出身高校', '出身地','birthday2','学年','ドラフト年','ドラフト順位', '身長','血液型','経歴' ]])
+    st.write(df[['選手名', '背番号', '所属チーム', '出身高校', '出身大学', '出身地','birthday2','学年','ドラフト年','ドラフト順位', '身長','血液型','経歴' ]])
 
 
 def display_aggregated_data(df, select_item):
@@ -58,20 +63,21 @@ def main():
     team_list = ['全て'] + list(team_list)
     team = st.selectbox('所属チーム', team_list)    
     high_school = st.text_input('出身高校')
+    college = st.text_input('出身大学')
     #経歴
     career = st.text_input('経歴')
     birthplace = st.text_input('出身地')
     birthday = st.text_input('生年月日')
     schoolyear = st.text_input('学年')
     draft_year = st.text_input('ドラフト年')
-    df = filter_data(df, name, team, high_school, career, birthplace, birthday, schoolyear,draft_year)
+    df = filter_data(df, name, team, high_school, college, career, birthplace, birthday, schoolyear,draft_year)
     st.write('### フィルタ結果')
     #結果の個数表示
     st.write('該当件数:', len(df), '件')   
     display_filtered_data2(df)
 
     st.write('### 集計')    
-    select_item = st.selectbox('集計項目選択', ['所属チーム', '出身高校', '出身地','学年', 'ドラフト年', 'ドラフト順位', '身長', '血液型','選手名',''])
+    select_item = st.selectbox('集計項目選択', ['所属チーム', '出身高校', '出身大学', '出身地','学年', 'ドラフト年', 'ドラフト順位', '身長', '血液型','選手名',''])
     display_aggregated_data(df, select_item)
 
 if __name__ == '__main__':
